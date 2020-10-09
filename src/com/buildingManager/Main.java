@@ -1,13 +1,11 @@
 package com.buildingManager;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Initializing class, the apartment class contains
         // a string for apartment number and most importantly
         // a list for the rooms.
@@ -54,10 +52,78 @@ public class Main {
 
 
         //getApartmentSize(apartment);
-        //printingApartment(dumpData);
+       // printingApartment(dumpData);
         System.out.println("----------DATA DUMP COMPLETE----------");
         printingApartment(matchingResults);
+
+
+       menuSystem(dumpData);
+
+
         //printingApartment( apartment.searchData(roomToFind));
+    }
+
+    private static void menuSystem(List list) throws IOException {
+        Scanner keyboard = new Scanner(System.in);
+        int numbers = 0;
+        boolean again = true;
+
+        while (again) {
+            try {
+
+                do {
+                    System.out.println("Choose your destiny!");
+                    System.out.println("1. Show all data");
+                    numbers = keyboard.nextInt();
+                    switch (numbers) {
+                        case 1: {
+                            printingApartment(list);
+                            break;
+                        }
+                        case 2: {
+                            System.out.println("556");
+                            break;
+                        }
+                    }
+                   // System.in.read();
+                } while (numbers != 3);
+
+                if (numbers < 1)
+                    throw new NegativeNumberException();
+                again = false;
+            } catch (InputMismatchException e) {
+                System.out.println("You entered a non-numeric value which is not allowed.");
+                System.out.print("Please enter the number again. ");
+                keyboard.nextLine(); // clearing buffer
+
+            } catch (NegativeNumberException e) {
+                System.out.println("Numbers must be greater then 0.");
+                keyboard.nextLine();
+            }
+        }
+
+
+
+
+
+/*
+        double sum = 0;
+
+        for (int i = 0; i < numbers; i++) {
+            again = true;
+            while (again) {
+                try {
+                    System.out.println("Enter number " + (i + 1));
+                    sum += keyboard.nextInt();
+                    again = false; // value ok, get next one
+                } catch (InputMismatchException e) {
+                    System.out.println("You entered a non-numeric value which is not allowed.");
+                    System.out.print("Please enter the number again. ");
+                    keyboard.nextLine(); // clearing buffer
+                }
+            }
+        }*/
+
     }
 
     private static void getApartmentSize(List object) {
@@ -138,5 +204,9 @@ public class Main {
 
         // RoomBuilder roomToFind = new RoomBuilder(properties);
         // List matchingRooms = apartment.search(roomToFind);
+    }
+
+    private static class NegativeNumberException extends Throwable {
+
     }
 }
