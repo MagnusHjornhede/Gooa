@@ -35,8 +35,8 @@ public class Main {
         properties.put("roomNr","1002" );
         apartment.addRoom(11,new RoomBuilder(properties));*/
 
-       //properties.put("appliances", "test");
-        properties.put("floor", FloorType.WOOD+" year:2003");
+        //properties.put("appliances", "test");
+        properties.put("floor", FloorType.WOOD + " year:2003");
         //apartment.addRoom(12,new RoomBuilder(properties));
         //apartment.addRoom(13,new RoomBuilder(properties));
         // Creating instance with constructor of RoomBuilder (immutability)
@@ -52,12 +52,12 @@ public class Main {
 
 
         //getApartmentSize(apartment);
-       // printingApartment(dumpData);
+        // printingApartment(dumpData);
         System.out.println("----------DATA DUMP COMPLETE----------");
         printingApartment(matchingResults);
 
 
-       menuSystem(dumpData);
+        menuSystem(dumpData);
 
 
         //printingApartment( apartment.searchData(roomToFind));
@@ -72,8 +72,13 @@ public class Main {
             try {
 
                 do {
-                    System.out.println("Choose your destiny!");
+                    System.out.println("Admin options");
                     System.out.println("1. Show all data");
+                    System.out.println("2. Total sqm");
+                    System.out.println("3. Total number of apartments"); // map every unique and sum
+                    System.out.println("4. Search for room type");
+                    System.out.println("5. Search for floor type");
+
                     numbers = keyboard.nextInt();
                     switch (numbers) {
                         case 1: {
@@ -85,8 +90,8 @@ public class Main {
                             break;
                         }
                     }
-                   // System.in.read();
-                } while (numbers != 3);
+                    // System.in.read();
+                } while (numbers != 10);
 
                 if (numbers < 1)
                     throw new NegativeNumberException();
@@ -175,17 +180,17 @@ public class Main {
         apartment.addRoom(10, new RoomBuilder(properties));
         // Same as above
 
-        properties.put("floor", FloorType.WOOD+ " year:2003");
+        properties.put("floor", FloorType.WOOD + " year:2003");
         properties.put("Room", RoomType.ROOM1);
         properties.put("wall", "year:2015");
         properties.put("appliances", "test");
-        properties.put("roomNr","1002" );
-        apartment.addRoom(11,new RoomBuilder(properties));
+        properties.put("roomNr", "1002");
+        apartment.addRoom(11, new RoomBuilder(properties));
 
         properties.put("floor", FloorType.TILES);
         properties.put("room", RoomType.BATHROOM);
-        properties.put("aptNumber","1003" );
-        apartment.addRoom(12,new RoomBuilder(properties));
+        properties.put("aptNumber", "1003");
+        apartment.addRoom(12, new RoomBuilder(properties));
 /*
         properties.put("floor", FloorType.MAT+ " year:2002");
         properties.put("room", RoomType.ROOM2);
