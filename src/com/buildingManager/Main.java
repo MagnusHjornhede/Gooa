@@ -3,7 +3,7 @@ package com.buildingManager;
 import java.io.IOException;
 import java.util.*;
 
-public class Main {
+public class Main extends Engine {
 
     public static void main(String[] args) throws IOException {
         // Initializing class, the apartment class contains
@@ -36,7 +36,7 @@ public class Main {
         apartment.addRoom(11,new RoomBuilder(properties));*/
 
         //properties.put("appliances", "test");
-        properties.put("floor", FloorType.WOOD + " year:2003");
+        properties.put("aptNr", 25);
         //apartment.addRoom(12,new RoomBuilder(properties));
         //apartment.addRoom(13,new RoomBuilder(properties));
         // Creating instance with constructor of RoomBuilder (immutability)
@@ -45,27 +45,24 @@ public class Main {
         // With the newly created instance of roomToFInd put it in search method of Apartment
         // and this going to return a list of possible matches.
 
-        //System.out.println("Total size"+ apartment.getApartmentSize());
 
-        List matchingResults = apartment.searchData(roomToFind);
         List dumpData = apartment.getRoomsInApartment();
 
-
-        //getApartmentSize(apartment);
-        // printingApartment(dumpData);
         System.out.println("----------DATA DUMP COMPLETE----------");
+        List matchingResults = apartment.searchData(roomToFind);
         printingApartment(matchingResults);
 
 
-        menuSystem(dumpData);
+        menuSystem(dumpData, apartment); // main menu
 
 
         //printingApartment( apartment.searchData(roomToFind));
     }
 
-    private static void menuSystem(List list) throws IOException {
+    private static void menuSystem(List list, Apartment apartment) throws IOException {
         Scanner keyboard = new Scanner(System.in);
         int numbers = 0;
+
         boolean again = true;
 
         while (again) {
@@ -74,8 +71,8 @@ public class Main {
                 do {
                     System.out.println("Admin options");
                     System.out.println("1. Show all data");
-                    System.out.println("2. Total sqm");
-                    System.out.println("3. Total number of apartments"); // map every unique and sum
+                    System.out.println("2. Search rooms with apartment number");
+                    System.out.println("3. Search rooms on address'"); //TODO map every unique and sum
                     System.out.println("4. Search for room type");
                     System.out.println("5. Search for floor type");
 
@@ -86,11 +83,19 @@ public class Main {
                             break;
                         }
                         case 2: {
-                            System.out.println("556");
+                            //apartmentSearch(keyboard);
+                            List matchingResults = apartment.searchData(apartmentSearch());
+                            printingApartment(matchingResults);
                             break;
                         }
+                        case 3: {
+
+                        }
+                        case 4: {
+
+                        }
                     }
-                    // System.in.read();
+
                 } while (numbers != 10);
 
                 if (numbers < 1)
@@ -106,29 +111,18 @@ public class Main {
                 keyboard.nextLine();
             }
         }
+    }
 
+    private static RoomBuilder apartmentSearch() {
+        Scanner user = new Scanner(System.in);
+        System.out.println("Enter apt number:\n");
+        String userInput = user.nextLine();
+        Map properties = new HashMap<String, Object>();
 
+        properties.put("aptNr", userInput);
 
-
-
-/*
-        double sum = 0;
-
-        for (int i = 0; i < numbers; i++) {
-            again = true;
-            while (again) {
-                try {
-                    System.out.println("Enter number " + (i + 1));
-                    sum += keyboard.nextInt();
-                    again = false; // value ok, get next one
-                } catch (InputMismatchException e) {
-                    System.out.println("You entered a non-numeric value which is not allowed.");
-                    System.out.print("Please enter the number again. ");
-                    keyboard.nextLine(); // clearing buffer
-                }
-            }
-        }*/
-
+        RoomBuilder roomToFind = new RoomBuilder(properties);
+        return roomToFind;
     }
 
     private static void getApartmentSize(List object) {
@@ -145,21 +139,23 @@ public class Main {
             for (Iterator i = matchingRooms.iterator(); i.hasNext(); ) {
                 Room room = (Room) i.next();
                 RoomBuilder spec = room.getRoomDetails();
+                System.out.println("Apartment " + spec.getProperty("aptNr") + " @ " + spec.getProperty("address"));
                 System.out.println(spec.getProperty("room") +
-                        " with the following history:");
+                        " with the following data:");
 
                 // Iterating the properties of the rooms
                 for (Iterator j = spec.getProperties().keySet().iterator();
                      j.hasNext(); ) {
                     String propertyName = (String) j.next();
-                    if (propertyName.equals("room")) // skip line
+                    if (propertyName.equals("room") || propertyName.equals("address") ||
+                            propertyName.equals("aptNr")) // skip line
                         continue;
                     System.out.println("    " + propertyName + ": " +
                             spec.getProperty(propertyName));
 
                 }
                 System.out.println("    " + "size: " + room.getSize() + " sqm");
-
+                System.out.println("-------------------------");
             }
         } else {
             System.out.println("Empty list");
@@ -171,41 +167,75 @@ public class Main {
         // Creating Rooms
         // Building up the properties for the room and put that in a map
         Map properties = new HashMap();
-        properties.put("floor", FloorType.WOOD);
-        properties.put("room", RoomType.HALL);
-        properties.put("appliances", Appliances.FREEZER);
-        properties.put("roomNr", "25");
-        // properties are set, now time to use those when when creating
-        // a new room to the apartment.
-        apartment.addRoom(10, new RoomBuilder(properties));
-        // Same as above
-
-        properties.put("floor", FloorType.WOOD + " year:2003");
-        properties.put("Room", RoomType.ROOM1);
+        //TODO USE SQL SERVER
+        //TODO FIX SAVE TO FILE
+        //TODO FIX printing order
+//--------------------aptNr 25----------------------------------------
+        properties.put("address", "Haga nygata 14");
+        properties.put("aptNr", "25");
+        properties.put("room", RoomType.ROOM1);
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
         properties.put("wall", "year:2015");
-        properties.put("appliances", "test");
-        properties.put("roomNr", "1002");
-        apartment.addRoom(11, new RoomBuilder(properties));
+        properties.put("appliances", "none");
 
-        properties.put("floor", FloorType.TILES);
-        properties.put("room", RoomType.BATHROOM);
-        properties.put("aptNumber", "1003");
-        apartment.addRoom(12, new RoomBuilder(properties));
-/*
-        properties.put("floor", FloorType.MAT+ " year:2002");
+        apartment.addRoom(25, new RoomBuilder(properties));
+
+        properties.put("address", "Haga nygata 14");
+        properties.put("aptNr", "25");
         properties.put("room", RoomType.ROOM2);
-        properties.put("aptNumber","1004" );
-        apartment.addRoom(13,new RoomBuilder(properties));
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", "none");
+        apartment.addRoom(15, new RoomBuilder(properties));
 
+        properties.put("address", "Haga nygata 14");
+        properties.put("aptNr", "25");
         properties.put("room", RoomType.KITCHEN);
-        properties.put("floor", FloorType.TILES + " year:2015");
-        properties.put("appliances", Appliances.FRIDGE);
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", Appliances.FRIDGE + " " + Appliances.STOVE);
+        apartment.addRoom(15, new RoomBuilder(properties));
 
-        properties.put("aptNumber","1005" );
-        properties.put("adress","Göteborgsvägen 12");
-        properties.put("test", FloorType.MAT);
-        apartment.addRoom(14,new RoomBuilder(properties));
-        */
+        properties.put("address", "Haga nygata 14");
+        properties.put("aptNr", "25");
+        properties.put("room", RoomType.BATHROOM);
+        properties.put("floor", FloorType.TILES + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", "none");
+        apartment.addRoom(10, new RoomBuilder(properties));
+//--------------------aptNr 26----------------------------------------
+        properties.put("address", "Haga nygata 12");
+        properties.put("aptNr", "28");
+        properties.put("room", RoomType.ROOM1);
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", "none");
+
+        apartment.addRoom(20, new RoomBuilder(properties));
+
+        properties.put("address", "Haga nygata 12");
+        properties.put("aptNr", "28");
+        properties.put("room", RoomType.ROOM2);
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", "none");
+        apartment.addRoom(14, new RoomBuilder(properties));
+
+        properties.put("address", "Haga nygata 12");
+        properties.put("aptNr", "28");
+        properties.put("room", RoomType.KITCHEN);
+        properties.put("floor", FloorType.WOOD + " year:2003");// use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", Appliances.FRIDGE + " " + Appliances.STOVE);
+        apartment.addRoom(12, new RoomBuilder(properties));
+
+        properties.put("address", "Haga nygata 12");
+        properties.put("aptNr", "28");
+        properties.put("room", RoomType.BATHROOM);
+        properties.put("floor", FloorType.TILES + " year:2003");//TODO use regex to get the floor type or year
+        properties.put("wall", "year:2015");
+        properties.put("appliances", "none");
+        apartment.addRoom(11, new RoomBuilder(properties));
 
         // RoomBuilder roomToFind = new RoomBuilder(properties);
         // List matchingRooms = apartment.search(roomToFind);
