@@ -15,48 +15,23 @@ public class Main extends Engine {
         // We have no rooms to begin with so
         // these need to be created
         createComplex(apartment);
-        // building1.addApartment("Lunden1", apartment);
 
-        // As this is not a complete program we hard code the operations
-        // Create search criteria with starting with map
         Map properties = new HashMap<String, Object>();
-        //properties.put("room", RoomType.BATHROOM);
-        //properties.put("room", RoomType.HALL);
-        /*
-        properties.put("floor", FloorType.WOOD);
-        properties.put("room", RoomType.HALL);
-        properties.put("appliances", Appliances.FREEZER);
-        properties.put("roomNr", "25");
-        apartment.addRoom(10, new RoomBuilder(properties));
 
-        properties.put("floor", FloorType.WOOD+ " year:2003");
-        properties.put("Room", RoomType.ROOM1);
-        properties.put("wall", "year:2015");
-        properties.put("roomNr","1002" );
-        apartment.addRoom(11,new RoomBuilder(properties));*/
 
-        //properties.put("appliances", "test");
-        properties.put("aptNr", 25);
-        //apartment.addRoom(12,new RoomBuilder(properties));
-        //apartment.addRoom(13,new RoomBuilder(properties));
         // Creating instance with constructor of RoomBuilder (immutability)
         RoomBuilder roomToFind = new RoomBuilder(properties);
 
         // With the newly created instance of roomToFInd put it in search method of Apartment
         // and this going to return a list of possible matches.
 
-
         List dumpData = apartment.getRoomsInApartment();
-
-        System.out.println("----------DATA DUMP COMPLETE----------");
         List matchingResults = apartment.searchData(roomToFind);
-        printingApartment(matchingResults);
-
 
         menuSystem(dumpData, apartment); // main menu
 
 
-        //printingApartment( apartment.searchData(roomToFind));
+
     }
 
     private static void menuSystem(List list, Apartment apartment) throws IOException {

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 
+
+
 public class Apartment {
     private String roomNumber;
     private List roomsInApartment; // Rooms stored as list
@@ -37,8 +39,6 @@ public class Apartment {
         for (Iterator i = getRoomsInApartment().iterator(); i.hasNext(); ) {// If theres something in the list
 
             Room room = (Room) i.next();  // Casting out a room object from the iterator squence
-            searcher= (room.getRoomDetails().toString());
-            //System.out.println("Searcher "+ searcher);
             if (room.getRoomDetails().matches(searchSpec)||room.getRoomDetails().matches(searchSpec)
             ) // Check if it matches requirements or not
             {
