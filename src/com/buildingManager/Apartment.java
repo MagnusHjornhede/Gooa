@@ -33,12 +33,17 @@ public class Apartment {
 
     public List searchData(RoomBuilder searchSpec) {
         List matchingRooms = new LinkedList();
+        String searcher;
         for (Iterator i = getRoomsInApartment().iterator(); i.hasNext(); ) {// If theres something in the list
 
             Room room = (Room) i.next();  // Casting out a room object from the iterator squence
-
-            if (room.getRoomDetails().matches(searchSpec)) // Check if it matches requirements or not
+            searcher= (room.getRoomDetails().toString());
+            //System.out.println("Searcher "+ searcher);
+            if (room.getRoomDetails().matches(searchSpec)||room.getRoomDetails().matches(searchSpec)
+            ) // Check if it matches requirements or not
+            {
                 matchingRooms.add(room);// add matching object to list
+            }
         }
 
         return matchingRooms;// return the list result

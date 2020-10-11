@@ -35,13 +35,21 @@ public class RoomBuilder {
              i.hasNext(); ) {
             String propertyName = (String) i.next();
 
-            if (!room.get(propertyName).equals(otherSpec.getProperty(propertyName))) {
+            if (!room.get(propertyName).equals(otherSpec.getProperty(propertyName))||
+                    !room.get(propertyName).equals(otherSpec.getProperty(propertyName).toString() )) {
+                {
+                    System.out.println(room.get(propertyName).toString()+"\n");
                 return false;
-            }
+            }}
         }
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "RoomBuilder{" +
+                "room=" + room +
+                '}';
+    }
 }
 

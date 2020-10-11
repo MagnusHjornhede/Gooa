@@ -72,7 +72,7 @@ public class Main extends Engine {
                     System.out.println("Admin options");
                     System.out.println("1. Show all data");
                     System.out.println("2. Search rooms with apartment number");
-                    System.out.println("3. Search rooms on address'"); //TODO map every unique and sum
+                    System.out.println("3. Search rooms on address");
                     System.out.println("4. Search for room type");
                     System.out.println("5. Search for floor type");
 
@@ -83,16 +83,21 @@ public class Main extends Engine {
                             break;
                         }
                         case 2: {
-                            //apartmentSearch(keyboard);
                             List matchingResults = apartment.searchData(apartmentSearch());
                             printingApartment(matchingResults);
                             break;
                         }
                         case 3: {
-
+                            List matchingResults = apartment.searchData(streetSearch());
+                            printingApartment(matchingResults);
                         }
                         case 4: {
-
+                            List matchingResults = apartment.searchData(roomTypeSearch());
+                            printingApartment(matchingResults);
+                        }
+                        case 5: {
+                            List matchingResults = apartment.searchData(streetSearch());
+                            printingApartment(matchingResults);
                         }
                     }
 
@@ -120,6 +125,31 @@ public class Main extends Engine {
         Map properties = new HashMap<String, Object>();
 
         properties.put("aptNr", userInput);
+
+        RoomBuilder roomToFind = new RoomBuilder(properties);
+        return roomToFind;
+    }
+
+    private static RoomBuilder streetSearch() {
+        Scanner user = new Scanner(System.in);
+        System.out.println("Enter address:\n");
+        String userInput = user.nextLine();
+        Map properties = new HashMap<String, Object>();
+
+        properties.put("address", userInput);
+
+        RoomBuilder roomToFind = new RoomBuilder(properties);
+        return roomToFind;
+    }
+
+    private static RoomBuilder roomTypeSearch() {
+        Scanner user = new Scanner(System.in);
+        System.out.println("Enter room type:\n");
+        String userInput = user.nextLine();
+        Map properties = new HashMap<String, Object>();
+
+        properties.put("room", userInput);
+        System.out.println(userInput);
 
         RoomBuilder roomToFind = new RoomBuilder(properties);
         return roomToFind;
@@ -169,7 +199,7 @@ public class Main extends Engine {
         Map properties = new HashMap();
         //TODO USE SQL SERVER
         //TODO FIX SAVE TO FILE
-        //TODO FIX printing order
+
 //--------------------aptNr 25----------------------------------------
         properties.put("address", "Haga nygata 14");
         properties.put("aptNr", "25");
